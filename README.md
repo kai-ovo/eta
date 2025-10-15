@@ -1,2 +1,2 @@
 # eta
-Extreme Event Aware (ETA) Learning
+Extreme Event Aware (η-) Learning
