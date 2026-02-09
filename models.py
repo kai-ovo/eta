@@ -7,32 +7,11 @@ from flow_matching.utils import ModelWrapper
 from tqdm import tqdm
 
 __all__ = ["SRCNN",
-           "CorrectNet",
            "FCNN",
-           "DropNN",
            "Diffusion",
            "UNet",
            "WrappedModel"]
 
-class ResBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size=3, padding=1):
-        super(ResBlock, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, padding=padding)
-#         self.bn1 = nn.BatchNorm2d(out_channels)
-        self.act = nn.GELU()#ReLU(inplace=True)
-        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size, padding=padding)
-#         self.bn2 = nn.BatchNorm2d(out_channels)
-    
-    def forward(self, x):
-        identity = x
-        out = self.conv1(x)
-#         out = self.bn1(out)
-        out = self.act(out)
-        out = self.conv2(out)
-#         out = self.bn2(out)
-        out += identity  # Residual connection
-        return self.act(out)
-    
 class SRCNN(nn.Module):
     def __init__(self, in_channels=1, out_channels=1, hidden_dim=64, num_blocks=3, scale_factor=2):
         super(SRCNN, self).__init__()
@@ -51,47 +30,8 @@ class SRCNN(nn.Module):
         x = self.final_res(x)
         x = self.final_conv(x)
         return x
-
-class CorrectNet(nn.Module):
-    def __init__(self, model_mse, scale_factor=2, kernel_size=3, padding=1, in_channels=1, out_channels=1):
-        super(CorrectNet, self).__init__()
-        self.predictor = SRCNN(hidden_dim=64, num_blocks=3, scale_factor=scale_factor)
-        if isinstance(model_mse, torch.nn.DataParallel):
-            model_mse = model_mse.module
-        model_mse = model_mse.to(next(self.predictor.parameters()).device)
-        self.predictor.load_state_dict(model_mse.state_dict())
-        
-        # Freeze predictor parameters
-#         for param in self.predictor.parameters():
-#             param.requires_grad = False
-            
-        self.corrector = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, kernel_size, padding=padding),
-            nn.BatchNorm2d(out_channels),
-            nn.GELU(),#ReLU(inplace=True)
-            nn.Conv2d(out_channels, out_channels, kernel_size, padding=padding),
-            nn.BatchNorm2d(out_channels)
-        )
-        
-        # Initialize weights
-#         self.corrector.apply(self.weights_init)
     
-    def forward(self, x):
-        prediction = self.predictor(x)
-        correction = self.corrector(prediction)
-        return prediction + correction
     
-    def weights_init(self, m):
-        if isinstance(m, nn.Conv2d):
-            nn.init.kaiming_uniform_(m.weight) 
-            if m.bias is not None:
-                nn.init.zeros_(m.bias)
-        elif isinstance(m, nn.BatchNorm2d):
-            nn.init.zeros_(m.weight)  # gamma parameter
-            nn.init.zeros_(m.bias)    # beta parameter
-        
-        
-
 class FCNN(nn.Module):
     def __init__(self, 
                  dimensions : list, 
@@ -139,6 +79,26 @@ class FCNN(nn.Module):
         
         return x
 
+        
+class ResBlock(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size=3, padding=1):
+        super(ResBlock, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, padding=padding)
+#         self.bn1 = nn.BatchNorm2d(out_channels)
+        self.act = nn.GELU()#ReLU(inplace=True)
+        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size, padding=padding)
+#         self.bn2 = nn.BatchNorm2d(out_channels)
+    
+    def forward(self, x):
+        identity = x
+        out = self.conv1(x)
+#         out = self.bn1(out)
+        out = self.act(out)
+        out = self.conv2(out)
+#         out = self.bn2(out)
+        out += identity  # Residual connection
+        return self.act(out)
+    
 class Diffusion(nn.Module):
     def __init__(self, model, image_resolution=[32, 32, 3], n_times=1000, beta_minmax=[1e-4, 2e-2], device='cuda'):
     
