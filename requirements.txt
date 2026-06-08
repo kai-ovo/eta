@@ -1,0 +1,32 @@
+# Python used in the local Codex environment when this file was created:
+# Python 3.9.13 (conda-forge build)
+#
+# Exact versions below were extracted from the current environment when available.
+# Packages marked "version not available locally" are required by the notebooks but
+# were not installed in the local Codex environment; pin them from the remote
+# experiment server before archival or final reruns.
+#
+# Local Codex had numpy==2.0.2 with torch==1.12.1, which emits PyTorch/NumPy ABI
+# warnings. The constraint below keeps NumPy in the compatible 1.x range for the
+# pinned PyTorch/SciPy stack instead of reproducing that local mismatch.
+
+numpy>=1.22.4,<1.23
+scipy==1.7.3
+torch==1.12.1
+torchvision==0.13.1
+matplotlib==3.9.4
+pandas==2.3.3
+tqdm==4.64.0
+ipykernel==6.15.0
+
+# Required by ERA5/plotting notebooks; exact local versions unavailable.
+xarray
+netCDF4
+cdsapi
+scikit-image
+jupyter
+seaborn
+KDEpy
+rich
+cartopy
+flow_matching
