@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated manuscript and archival software release."
+title: "Extreme Event Aware (eta-) Learning"
+authors:
+  - family-names: "Chang"
+    given-names: "Kai"
+  - family-names: "Sapsis"
+    given-names: "Themistoklis P."
+doi: "10.5281/zenodo.21636106"
+version: "v1.0.0"
+date-released: "2026-07-28"
+license: "MIT"
+repository-code: "https://github.com/kai-ovo/eta"

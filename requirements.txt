@@ -1,0 +1,36 @@
+# Curated pinned dependencies for the active remote eta conda environment.
+# Pins are based on packages importable from:
+#   conda run -n eta python -m pip freeze
+#
+# PyTorch CUDA wheels need the PyTorch wheel index for the +cu118 builds.
+--extra-index-url https://download.pytorch.org/whl/cu118
+
+numpy==1.26.3
+scipy==1.16.2
+pandas==2.3.3
+
+torch==2.2.0+cu118
+torchvision==0.17.0+cu118
+torchdiffeq==0.2.4
+
+matplotlib==3.10.7
+seaborn==0.13.2
+cartopy==0.23.0
+KDEpy==1.1.8
+
+tqdm==4.66.2
+rich==13.9.2
+psutil==5.9.8
+
+ipykernel==6.29.4
+jupyter==1.0.0
+notebook==7.1.2
+jupyterlab==4.1.6
+nbconvert==7.16.3
+
+xarray==2025.10.1
+netCDF4==1.7.1.post2
+h5py==3.11.0
+cdsapi==0.7.1
+scikit-image==0.26.0
+flow_matching==1.0.10
