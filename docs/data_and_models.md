@@ -7,7 +7,7 @@ This repository intentionally does not store large climate datasets, generated s
 - Datasets (ERA5-Land, toy, smoke-test subset): [`10.5281/zenodo.21635446`](https://doi.org/10.5281/zenodo.21635446)
 - Pretrained models and generated samples: [`10.5281/zenodo.21635468`](https://doi.org/10.5281/zenodo.21635468)
 - Code archive, all versions: [`10.5281/zenodo.21636106`](https://doi.org/10.5281/zenodo.21636106)
-- Code archive, `v1.0.1`: [`10.5281/zenodo.21636259`](https://doi.org/10.5281/zenodo.21636259)
+- Code archive, `v1.1.0`: [`10.5281/zenodo.21636362`](https://doi.org/10.5281/zenodo.21636362)
 
 Checksums are published as `SHA256SUMS-data.txt` in the dataset record and `SHA256SUMS-models-samples.txt` inside `eta-models-samples-v1.0.0.zip` in the model record. Verify with `shasum -a 256 -c`.
 

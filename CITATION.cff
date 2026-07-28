@@ -7,7 +7,7 @@ authors:
   - family-names: "Sapsis"
     given-names: "Themistoklis P."
 doi: "10.5281/zenodo.21636106"
-version: "v1.0.1"
+version: "v1.1.0"
 date-released: "2026-07-28"
 license: "MIT"
 repository-code: "https://github.com/kai-ovo/eta"
