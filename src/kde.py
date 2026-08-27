@@ -21,8 +21,10 @@ def get_data_pdf(data, data_all, weights=None):
     if type(data_all) is torch.Tensor:
         data_all = data_all.numpy()
     
-    data_min =  np.min([data.detach().cpu().numpy().min(),data_all.min()]) - 1e-8
-    data_max =  np.max([data.detach().cpu().numpy().max(),data_all.max()]) + 1e-8
+    # Cast to Python floats so np.linspace builds a float64 grid; a float32 grid
+    # has non-uniform spacing that fails KDEpy's linear_binning assertion.
+    data_min =  float(np.min([data.detach().cpu().numpy().min(),data_all.min()])) - 1e-8
+    data_max =  float(np.max([data.detach().cpu().numpy().max(),data_all.max()])) + 1e-8
     y_eval = np.linspace(data_min, data_max, 1000)
     y_pdf = custom_KDE(data.detach().cpu().numpy(), weights=weights, bw=None)
     py = y_pdf.evaluate(y_eval)
